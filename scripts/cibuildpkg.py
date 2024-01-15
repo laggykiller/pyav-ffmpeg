@@ -211,6 +211,11 @@ class Builder:
             and not for_builder
             and os.environ["ARCHFLAGS"] == "-arch arm64"
         )
+        windows_arm64_cross = (
+            platform.system() == "Windows"
+            # and not for_builder
+            and os.environ["CIBW_ARCHS"] == "ARM64"
+        )
 
         if package.name == "vpx":
             if darwin_arm64_cross:
@@ -220,6 +225,11 @@ class Builder:
                 # darwin13 matches the macos 10.9 target used by cibuildwheel:
                 # https://cibuildwheel.readthedocs.io/en/stable/cpp_standards/#macos-and-deployment-target-versions
                 configure_args += ["--target=x86_64-darwin13-gcc"]
+            elif windows_arm64_cross:
+                configure_args += [
+                    "--build=x86_64-w64-mingw32",
+                    "--host=aarch64-w64-mingw32",
+                ]
             elif platform.system() == "Windows":
                 configure_args += ["--target=x86_64-win64-gcc"]
         elif darwin_arm64_cross:
@@ -234,6 +244,11 @@ class Builder:
                     "--build=x86_64-apple-darwin",
                     "--host=aarch64-apple-darwin",
                 ]
+        elif windows_arm64_cross:
+            configure_args += [
+                "--build=x86_64-w64-mingw32",
+                "--host=aarch64-w64-mingw32",
+            ]
 
         # build package
         os.makedirs(package_build_path, exist_ok=True)
