@@ -261,8 +261,10 @@ class Builder:
         
         if package.name == "zlib":
             configure_args.remove("--disable-static")
-            configure_args.remove("--build=x86_64-w64-mingw32")
-            configure_args.remove("--host=aarch64-w64-mingw32")
+
+            if windows_arm64_cross:
+                configure_args.remove("--build=x86_64-w64-mingw32")
+                configure_args.remove("--host=aarch64-w64-mingw32")
 
         # build package
         os.makedirs(package_build_path, exist_ok=True)
