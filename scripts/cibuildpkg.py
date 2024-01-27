@@ -249,7 +249,9 @@ class Builder:
             env["RC"] = "/opt/bin/aarch64-w64-mingw32-windres"
             env["STRIP"] = "/opt/bin/aarch64-w64-mingw32-strip"
             env["NM"] = "/opt/bin/aarch64-w64-mingw32-nm"
-            env["LDFLAGS"] = "-L/opt/aarch64-w64-mingw32/lib"
+            # Compile still fails even with this
+            if package.name == "xml2":
+                env["LDFLAGS"] = "-L/opt/aarch64-w64-mingw32/lib"
 
             configure_args += [
                 "--build=x86_64-w64-mingw32",
