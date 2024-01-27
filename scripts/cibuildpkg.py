@@ -226,10 +226,7 @@ class Builder:
                 # https://cibuildwheel.readthedocs.io/en/stable/cpp_standards/#macos-and-deployment-target-versions
                 configure_args += ["--target=x86_64-darwin13-gcc"]
             elif windows_arm64_cross:
-                configure_args += [
-                    "--build=x86_64-w64-mingw32",
-                    "--host=aarch64-w64-mingw32",
-                ]
+                configure_args += ["--target=aarch64-w64-mingw32-gcc"]
             elif platform.system() == "Windows":
                 configure_args += ["--target=x86_64-win64-gcc"]
         elif darwin_arm64_cross:
@@ -261,10 +258,10 @@ class Builder:
         
         if package.name == "zlib":
             configure_args.remove("--disable-static")
-
-            for i in configure_args:
-                if i.startswith("--build=") or i.startswith("--host="):
-                    configure_args.remove(i)
+            configure_args = [
+                i for i in configure_args if 
+                not (i.startswith("--build=") or i.startswith("--host="))
+            ]
 
         # build package
         os.makedirs(package_build_path, exist_ok=True)
