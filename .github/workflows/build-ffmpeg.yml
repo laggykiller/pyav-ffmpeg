@@ -51,7 +51,7 @@ jobs:
           echo 'Server = https://windows-on-arm-experiments.github.io/msys2-woarm64-build/$arch' >> /etc/pacman.conf
           echo 'SigLevel = Optional' >> /etc/pacman.conf
           pacman -Sy
-          pacman -S \
+          pacman --noconfirm -S \
             woarm64/mingw-w64-cross-binutils \
             woarm64/mingw-w64-cross-crt \
             woarm64/mingw-w64-cross-gcc \
