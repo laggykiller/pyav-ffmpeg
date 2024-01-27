@@ -106,6 +106,10 @@ if not os.path.exists(output_tarball):
             build_dir=".",
         ),
         Package(
+            name="zlib",
+            source_url="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.xz",
+        ),
+        Package(
             name="png",
             source_url="http://deb.debian.org/debian/pool/main/libp/libpng1.6/libpng1.6_1.6.37.orig.tar.gz",
             # avoid an assembler error on Windows

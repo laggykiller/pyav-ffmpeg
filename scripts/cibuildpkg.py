@@ -245,10 +245,24 @@ class Builder:
                     "--host=aarch64-apple-darwin",
                 ]
         elif windows_arm64_cross:
+            env["CC"] = "/opt/bin/aarch64-w64-mingw32-gcc"
+            env["CXX"] = "/opt/bin/aarch64-w64-mingw32-g++"
+            env["AR"] = "/opt/bin/aarch64-w64-mingw32-ar"
+            env["RANLIB"] = "/opt/bin/aarch64-w64-mingw32-ranlib"
+            env["RC"] = "/opt/bin/aarch64-w64-mingw32-windres"
+            env["STRIP"] = "/opt/bin/aarch64-w64-mingw32-strip"
+            env["NM"] = "/opt/bin/aarch64-w64-mingw32-nm"
+            env["LDFLAGS"] = "-L/opt/aarch64-w64-mingw32/lib"
+
             configure_args += [
                 "--build=x86_64-w64-mingw32",
                 "--host=aarch64-w64-mingw32",
             ]
+        
+        if package.name == "zlib":
+            configure_args.remove("--disable-static")
+            configure_args.remove("--build=x86_64-w64-mingw32")
+            configure_args.remove("--host=aarch64-w64-mingw32")
 
         # build package
         os.makedirs(package_build_path, exist_ok=True)
