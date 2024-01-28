@@ -110,7 +110,7 @@ jobs:
           
           mkdir -p /c/cibw
 
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-*.pkg.tar.zst -C /c/cibw/
+          for file in /var/cache/pacman/pkg/mingw-w64-clang-aarch64-*.pkg.tar.zst; do tar -xf "$file" -C /c/cibw/; done
 
           mv /c/cibw/clangarm64 /c/cibw/vendor
           mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
