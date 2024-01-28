@@ -33,6 +33,13 @@ output_tarball = os.path.join(output_dir, f"ffmpeg-{get_platform()}.tar.gz")
 # FFmpeg has native TLS backends for macOS and Windows
 use_gnutls = plat == "Linux"
 
+# We should already built ffmpeg for Windows arm64
+if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
+    # build output tarball
+    os.makedirs(output_dir, exist_ok=True)
+    run(["tar", "czvf", output_tarball, "-C", dest_dir, "bin", "include", "lib"])
+    exit()
+
 if not os.path.exists(output_tarball):
     builder = Builder(dest_dir=dest_dir)
     builder.create_directories()
@@ -100,15 +107,6 @@ if not os.path.exists(output_tarball):
             ],
         ),
         Package(
-            name="zlib",
-            source_url="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.xz",
-        ),
-        Package(
-            name="bz2",
-            source_url="https://github.com/libarchive/bzip2/archive/refs/heads/master.tar.gz",
-            build_system="cmake",
-        ),
-        Package(
             name="gmp",
             source_url="https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz",
             # out-of-tree builds fail on Windows
@@ -116,7 +114,6 @@ if not os.path.exists(output_tarball):
         ),
         Package(
             name="png",
-            requires=["zlib"],
             source_url="http://deb.debian.org/debian/pool/main/libp/libpng1.6/libpng1.6_1.6.37.orig.tar.gz",
             # avoid an assembler error on Windows
             build_arguments=["PNG_COPTS=-fno-asynchronous-unwind-tables"],
@@ -137,7 +134,7 @@ if not os.path.exists(output_tarball):
         ),
         Package(
             name="fontconfig",
-            requires=["freetype", "xml2", "bz2"],
+            requires=["freetype", "xml2"],
             source_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2",
             build_arguments=["--disable-nls", "--enable-libxml2"],
         ),
@@ -383,16 +380,18 @@ if not os.path.exists(output_tarball):
             "swresample",
             "swscale",
         ]:
-            src = os.path.join(dest_dir, "bin", name + ".lib")
-            dst = os.path.join(dest_dir, "lib")
-            if os.path.isfile(src):
-                shutil.move(src, dst)
+            shutil.move(
+                os.path.join(dest_dir, "bin", name + ".lib"),
+                os.path.join(dest_dir, "lib"),
+            )
 
         # copy some libraries provided by mingw
-        if os.environ["CIBW_ARCHS"] == "ARM64":
-            mingw_bindir = builder._demangle_path("/clangarm64/bin")
-        else:
-            mingw_bindir = builder._demangle_path("/mingw64/bin")
+        mingw_bindir = os.path.dirname(
+            subprocess.run(["where", "gcc"], check=True, stdout=subprocess.PIPE)
+            .stdout.decode()
+            .splitlines()[0]
+            .strip()
+        )
         for name in [
             "libgcc_s_seh-1.dll",
             "libiconv-2.dll",
@@ -400,21 +399,7 @@ if not os.path.exists(output_tarball):
             "libwinpthread-1.dll",
             "zlib1.dll",
         ]:
-            src = os.path.join(mingw_bindir, name)
-            dst = os.path.join(dest_dir, "bin")
-            if os.path.isfile(src):
-                shutil.copy(src, dst)
-        
-        if os.environ["CIBW_ARCHS"] == "ARM64":
-            src = os.path.join(dest_dir, "lib/libbz2.dll")
-            dsts = [
-                os.path.join(dest_dir, "bin/bz2-1.dll"),
-                os.path.join(dest_dir, "bin/libbz2.dll"),
-                os.path.join(dest_dir, "bin/libbz2-1.dll"),
-            ]
-            if os.path.isfile(src):
-                for dst in dsts:
-                    shutil.copy(src, dst)
+            shutil.copy(os.path.join(mingw_bindir, name), os.path.join(dest_dir, "bin"))
 
     # find libraries
     if plat == "Darwin":
@@ -428,9 +413,6 @@ if not os.path.exists(output_tarball):
     if plat == "Darwin":
         run(["strip", "-S"] + libraries)
         run(["otool", "-L"] + libraries)
-    elif platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
-        strip_bin = builder._demangle_path("/opt/aarch64-w64-mingw32/bin/strip.exe")
-        run([strip_bin, "-s"] + libraries)
     else:
         run(["strip", "-s"] + libraries)
 

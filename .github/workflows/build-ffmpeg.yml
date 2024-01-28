@@ -34,7 +34,7 @@ jobs:
             python_version: 3.8
           - os: windows-latest
             arch: ARM64
-            shell: 'msys2 {0}'
+            shell: PowerShell
             cibw_build: cp39-*
             python_version: 3.9
     defaults:
@@ -52,75 +52,15 @@ jobs:
           brew install pkg-config
           brew unlink gettext libidn2 libpng libtiff libunistring little-cms2 unbound
       - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest' && matrix.arch == 'AMD64'
         with:
           install: base-devel mingw-w64-x86_64-gcc mingw-w64-x86_64-gperf mingw-w64-x86_64-nasm
           path-type: inherit
-      - name: Setup msys2 for arm64
+      - name: Build FFmpeg (vcpkg)
         if: matrix.os == 'windows-latest' && matrix.arch == 'ARM64'
         run: |
-          echo '[woarm64]' >> /etc/pacman.conf
-          echo 'Server = https://windows-on-arm-experiments.github.io/msys2-woarm64-build/$arch' >> /etc/pacman.conf
-          echo 'SigLevel = Optional' >> /etc/pacman.conf
-          pacman -Sy
-          pacman --noconfirm -S \
-            woarm64/mingw-w64-cross-binutils \
-            woarm64/mingw-w64-cross-crt \
-            woarm64/mingw-w64-cross-gcc \
-            woarm64/mingw-w64-cross-headers \
-            woarm64/mingw-w64-cross-windows-default-manifest \
-            woarm64/mingw-w64-cross-winpthreads
-          
-          # Install packages for those that failed to compile
-          pacman --noconfirm -Sw \
-            mingw-w64-clang-aarch64-libxml2 \
-            mingw-w64-clang-aarch64-libiconv \
-            mingw-w64-clang-aarch64-fontconfig \
-            mingw-w64-clang-aarch64-fribidi \
-            mingw-w64-clang-aarch64-harfbuzz \
-            mingw-w64-clang-aarch64-freetype \
-            mingw-w64-clang-aarch64-brotli \
-            mingw-w64-clang-aarch64-glib2 \
-            mingw-w64-clang-aarch64-graphite2 \
-            mingw-w64-clang-aarch64-pcre2 \
-            mingw-w64-clang-aarch64-libbluray \
-            mingw-w64-clang-aarch64-dav1d \
-            mingw-w64-clang-aarch64-libvpx \
-            mingw-w64-clang-aarch64-x265
-          
-          mkdir -p /c/cibw
-
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-freetype*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-brotli*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-graphite2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-pcre2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libbluray*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-dav1d*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvpx*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-x265*.pkg.tar.zst -C /c/cibw/
-
-          mv /c/cibw/clangarm64 /c/cibw/vendor
-          mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
-          
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xml2
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/iconv
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/fontconfig
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/fribidi
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/harfbuzz
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/freetype
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/glib
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/graphite
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/pcre
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/bluray
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/dav1d
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vpx
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x265
+          C:\vcpkg\vcpkg.exe install ffmpeg[all,ffmpeg,ffplay,ffprobe]:arm64-windows
+          move C:\vcpkg\installed\arm64-windows C:\cibw\vendor
       - name: Build FFmpeg
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
