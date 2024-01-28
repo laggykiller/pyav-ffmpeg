@@ -100,15 +100,6 @@ if not os.path.exists(output_tarball):
             ],
         ),
         Package(
-            name="zlib",
-            source_url="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.xz",
-        ),
-        Package(
-            name="bz2",
-            source_url="https://github.com/libarchive/bzip2/archive/refs/heads/master.tar.gz",
-            build_system="cmake",
-        ),
-        Package(
             name="gmp",
             source_url="https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz",
             # out-of-tree builds fail on Windows
