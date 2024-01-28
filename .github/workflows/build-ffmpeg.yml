@@ -190,6 +190,7 @@ jobs:
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vorbis
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x264
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xvid
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/ffmpeg
       - name: Build FFmpeg
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
