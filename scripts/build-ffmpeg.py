@@ -104,6 +104,11 @@ if not os.path.exists(output_tarball):
             source_url="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.xz",
         ),
         Package(
+            name="bz2",
+            source_url="https://github.com/libarchive/bzip2/archive/refs/heads/master.tar.gz",
+            build_system="cmake",
+        ),
+        Package(
             name="gmp",
             source_url="https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz",
             # out-of-tree builds fail on Windows
@@ -132,7 +137,7 @@ if not os.path.exists(output_tarball):
         ),
         Package(
             name="fontconfig",
-            requires=["freetype", "xml2"],
+            requires=["freetype", "xml2", "bz2"],
             source_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2",
             build_arguments=["--disable-nls", "--enable-libxml2"],
         ),
@@ -399,6 +404,17 @@ if not os.path.exists(output_tarball):
             dst = os.path.join(dest_dir, "bin")
             if os.path.isfile(src):
                 shutil.copy(src, dst)
+        
+        if os.environ["CIBW_ARCHS"] == "ARM64":
+            src = os.path.join(dest_dir, "lib/libbz2.dll")
+            dsts = [
+                os.path.join(dest_dir, "bin/bz2-1.dll"),
+                os.path.join(dest_dir, "bin/libbz2.dll"),
+                os.path.join(dest_dir, "bin/libbz2-1.dll"),
+            ]
+            if os.path.isfile(src):
+                for dst in dsts:
+                    shutil.copy(src, dst)
 
     # find libraries
     if plat == "Darwin":
