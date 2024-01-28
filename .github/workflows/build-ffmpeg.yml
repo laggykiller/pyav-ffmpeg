@@ -72,7 +72,7 @@ jobs:
             woarm64/mingw-w64-cross-winpthreads
           
           # Install packages for those that failed to compile
-          pacman --noconfirm -S -r  \
+          pacman --noconfirm -Sw \
             mingw-w64-clang-aarch64-libxml2 \
             mingw-w64-clang-aarch64-libiconv \
             mingw-w64-clang-aarch64-fontconfig \
