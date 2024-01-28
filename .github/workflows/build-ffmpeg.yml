@@ -10,21 +10,33 @@ jobs:
           - os: macos-latest
             arch: arm64
             shell: bash
+            cibw_build: cp38-*
+            python_version: 3.8
           - os: macos-latest
             arch: x86_64
             shell: bash
+            cibw_build: cp38-*
+            python_version: 3.8
           - os: ubuntu-latest
             arch: i686
             shell: bash
+            cibw_build: cp38-*
+            python_version: 3.8
           - os: ubuntu-latest
             arch: x86_64
             shell: bash
+            cibw_build: cp38-*
+            python_version: 3.8
           - os: windows-latest
             arch: AMD64
             shell: 'msys2 {0}'
+            cibw_build: cp38-*
+            python_version: 3.8
           - os: windows-latest
             arch: ARM64
             shell: 'msys2 {0}'
+            cibw_build: cp39-*
+            python_version: 3.9
     defaults:
       run:
         shell: ${{ matrix.shell }}
@@ -32,7 +44,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: ${{ matrix.python_version }}
       - name: Install packages
         if: matrix.os == 'macos-latest'
         run: |
@@ -58,12 +70,56 @@ jobs:
             woarm64/mingw-w64-cross-headers \
             woarm64/mingw-w64-cross-windows-default-manifest \
             woarm64/mingw-w64-cross-winpthreads
+          
+          # Install packages for those that failed to compile
+          pacman --noconfirm -S -r  \
+            mingw-w64-clang-aarch64-libxml2 \
+            mingw-w64-clang-aarch64-libiconv \
+            mingw-w64-clang-aarch64-fontconfig \
+            mingw-w64-clang-aarch64-fribidi \
+            mingw-w64-clang-aarch64-harfbuzz \
+            mingw-w64-clang-aarch64-glib2 \
+            mingw-w64-clang-aarch64-graphite2 \
+            mingw-w64-clang-aarch64-pcre2 \
+            mingw-w64-clang-aarch64-libbluray \
+            mingw-w64-clang-aarch64-dav1d \
+            mingw-w64-clang-aarch64-libvpx \
+            mingw-w64-clang-aarch64-x265
+          
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig2* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-graphite2* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-pcre2* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libbluray* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-dav1d* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvpx* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-x265* -C /c/cibw/
+
+          mv /c/cibw/clangarm64 /c/cibw/vendor
+          mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
+          
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xml2
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/iconv
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/fontconfig
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/fribidi
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/harfbuzz
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/glib
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/graphite
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/pcre
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/libbluray
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/dav1d
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vpx
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x265
       - name: Build FFmpeg
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_BEFORE_BUILD: python scripts/build-ffmpeg.py /tmp/vendor
           CIBW_BEFORE_BUILD_WINDOWS: python scripts\build-ffmpeg.py C:\cibw\vendor
-          CIBW_BUILD: cp39-*
+          CIBW_BUILD: ${{ matrix.cibw_build }}
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: LD_LIBRARY_PATH=/tmp/vendor/lib:$LD_LIBRARY_PATH auditwheel repair -w {dest_dir} {wheel}
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: delvewheel repair --add-path C:\cibw\vendor\bin -w {dest_dir} {wheel}
           CIBW_SKIP: "*musllinux*"
@@ -90,7 +146,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.8
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Build FFmpeg dependencies
@@ -120,7 +176,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.8
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - uses: actions/download-artifact@v3
@@ -155,7 +211,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.8
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - uses: actions/download-artifact@v3

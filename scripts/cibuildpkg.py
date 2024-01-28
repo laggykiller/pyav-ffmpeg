@@ -217,18 +217,38 @@ class Builder:
             and os.environ["CIBW_ARCHS"] == "ARM64"
         )
 
-        if package.name == "vpx":
-            if darwin_arm64_cross:
-                # darwin20 is the first darwin that supports arm64 macs
-                configure_args += ["--target=arm64-darwin20-gcc"]
-            elif platform.system() == "Darwin":
-                # darwin13 matches the macos 10.9 target used by cibuildwheel:
-                # https://cibuildwheel.readthedocs.io/en/stable/cpp_standards/#macos-and-deployment-target-versions
-                configure_args += ["--target=x86_64-darwin13-gcc"]
-            elif windows_arm64_cross:
-                configure_args += ["--target=aarch64-w64-mingw32-gcc"]
-            elif platform.system() == "Windows":
-                configure_args += ["--target=x86_64-win64-gcc"]
+        if windows_arm64_cross:
+            env["CC"] = "/opt/bin/aarch64-w64-mingw32-gcc"
+            env["CXX"] = "/opt/bin/aarch64-w64-mingw32-g++"
+            env["AR"] = "/opt/bin/aarch64-w64-mingw32-ar"
+            env["RANLIB"] = "/opt/bin/aarch64-w64-mingw32-ranlib"
+            env["RC"] = "/opt/bin/aarch64-w64-mingw32-windres"
+            env["STRIP"] = "/opt/bin/aarch64-w64-mingw32-strip"
+            env["NM"] = "/opt/bin/aarch64-w64-mingw32-nm"
+            env["PKG_CONFIG_PATH"] = self._mangle_path(os.path.join(prefix, "lib/pkgconfig"))
+
+            if package.name in ("xml2", "freetype", "fontconfig"):
+                # xml2 compile still fails even with this
+                env["LDFLAGS"] = "-L/opt/aarch64-w64-mingw32/lib"
+                configure_args += [
+                    "--build=x86_64-w64-mingw32",
+                    "--host=aarch64-w64-mingw32",
+                ]
+            elif package.name == "vpx":
+                pass
+            elif package.name == "ffmpeg":
+                configure_args += [
+                    "--disable-optimizations",
+                    "--arch=aarch64",
+                    "--target-os=mingw32",
+                    f"--cross-prefix={self._demangle_path('/opt/bin/aarch64-w64-mingw32-')}",
+                    f'--pkg-config-flags="--with-path={self._mangle_path(os.path.join(prefix, "lib/pkgconfig"))}"'
+                ]
+            else:
+                configure_args += [
+                    "--build=x86_64-w64-mingw32",
+                    "--host=aarch64-w64-mingw32",
+                ]
         elif darwin_arm64_cross:
             # AC_FUNC_MALLOC and AC_FUNC_REALLOC fail when cross-compiling
             env["ac_cv_func_malloc_0_nonnull"] = "yes"
@@ -241,24 +261,20 @@ class Builder:
                     "--build=x86_64-apple-darwin",
                     "--host=aarch64-apple-darwin",
                 ]
-        elif windows_arm64_cross:
-            env["CC"] = "/opt/bin/aarch64-w64-mingw32-gcc"
-            env["CXX"] = "/opt/bin/aarch64-w64-mingw32-g++"
-            env["AR"] = "/opt/bin/aarch64-w64-mingw32-ar"
-            env["RANLIB"] = "/opt/bin/aarch64-w64-mingw32-ranlib"
-            env["RC"] = "/opt/bin/aarch64-w64-mingw32-windres"
-            env["STRIP"] = "/opt/bin/aarch64-w64-mingw32-strip"
-            env["NM"] = "/opt/bin/aarch64-w64-mingw32-nm"
-            # Compile still fails even with this
-            if package.name == "xml2":
-                env["LDFLAGS"] = "-L/opt/aarch64-w64-mingw32/lib"
 
-            configure_args += [
-                "--build=x86_64-w64-mingw32",
-                "--host=aarch64-w64-mingw32",
-            ]
-        
-        if package.name == "zlib":
+        if package.name == "vpx":
+            if darwin_arm64_cross:
+                # darwin20 is the first darwin that supports arm64 macs
+                configure_args += ["--target=arm64-darwin20-gcc"]
+            elif platform.system() == "Darwin":
+                # darwin13 matches the macos 10.9 target used by cibuildwheel:
+                # https://cibuildwheel.readthedocs.io/en/stable/cpp_standards/#macos-and-deployment-target-versions
+                configure_args += ["--target=x86_64-darwin13-gcc"]
+            elif windows_arm64_cross:
+                configure_args += ["--target=arm64-win64-gcc"]
+            elif platform.system() == "Windows":
+                configure_args += ["--target=x86_64-win64-gcc"]
+        elif package.name == "zlib":
             configure_args.remove("--disable-static")
             configure_args = [
                 i for i in configure_args if 
@@ -297,6 +313,11 @@ class Builder:
             "-DCMAKE_INSTALL_LIBDIR=lib",
             "-DCMAKE_INSTALL_PREFIX=" + prefix,
         ]
+        windows_arm64_cross = (
+            platform.system() == "Windows"
+            # and not for_builder
+            and os.environ["CIBW_ARCHS"] == "ARM64"
+        )
         if platform.system() == "Darwin":
             cmake_args.append("-DCMAKE_INSTALL_NAME_DIR=" + os.path.join(prefix, "lib"))
             if not for_builder and os.environ["ARCHFLAGS"] == "-arch arm64":
@@ -305,6 +326,22 @@ class Builder:
                     "-DCMAKE_SYSTEM_NAME=Darwin",
                     "-DCMAKE_SYSTEM_PROCESSOR=arm64",
                 ]
+        elif windows_arm64_cross:
+            env["CC"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-gcc.exe")
+            env["CXX"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-g++.exe")
+            env["AR"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-ar.exe")
+            env["RANLIB"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-ranlib.exe")
+            env["RC"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-windres.exe")
+            env["STRIP"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-strip.exe")
+            env["NM"] = self._demangle_path("/opt/bin/aarch64-w64-mingw32-nm.exe")
+
+            cmake_args += [
+                "-DCMAKE_CROSSCOMPILING=1",
+                "-DCMAKE_SYSTEM_NAME=Windows",
+                "-DCMAKE_SYSTEM_PROCESSOR=ARM64",
+                "-DCMAKE_SYSTEM_VERSION=10.0",
+                "-DCONFIG_RUNTIME_CPU_DETECT=0"
+            ]
 
         # build package
         os.makedirs(package_build_path, exist_ok=True)
@@ -334,6 +371,31 @@ class Builder:
             platform.system() == "Darwin"
             and not for_builder
             and os.environ["ARCHFLAGS"] == "-arch arm64"
+        ):
+            cross_file = os.path.join(package_path, "meson.cross")
+            with open(cross_file, "w") as fp:
+                fp.write(
+                    f"""[binaries]
+c = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-gcc.exe")}'
+cpp = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-g++.exe")}'
+ar = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-ar.exe")}'
+ranlib = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-ranlib.exe")}'
+rc = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-windres.exe")}'
+strip = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-strip.exe")}'
+nm = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-nm.exe")}'
+
+[host_machine]
+system = 'windows'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'
+"""
+                )
+            meson_args.append("--cross-file=" + cross_file)
+        elif (
+            platform.system() == "Windows"
+            # and not for_builder
+            and os.environ["CIBW_ARCHS"] == "ARM64"
         ):
             cross_file = os.path.join(package_path, "meson.cross")
             with open(cross_file, "w") as fp:
@@ -491,10 +553,16 @@ endian = 'little'
 
         return env
 
+    def _demangle_path(self, path: str) -> str:
+        if platform.system() == "Windows":
+            return subprocess.run(["cygpath", "-m", path], stdout=subprocess.PIPE, text=True).stdout.strip()
+        else:
+            return path
+
     def _mangle_path(self, path: str) -> str:
         if platform.system() == "Windows":
             return (
-                path.replace(os.path.sep, "/").replace("C:", "/c").replace("D:", "/d")
+                subprocess.run(["cygpath", "-u", path], stdout=subprocess.PIPE, text=True).stdout.strip()
             )
         else:
             return path
