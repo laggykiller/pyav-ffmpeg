@@ -375,17 +375,12 @@ class Builder:
             cross_file = os.path.join(package_path, "meson.cross")
             with open(cross_file, "w") as fp:
                 fp.write(
-                    f"""[binaries]
-c = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-gcc.exe")}'
-cpp = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-g++.exe")}'
-ar = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-ar.exe")}'
-ranlib = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-ranlib.exe")}'
-rc = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-windres.exe")}'
-strip = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-strip.exe")}'
-nm = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-nm.exe")}'
+                    """[binaries]
+c = 'cc'
+cpp = 'c++'
 
 [host_machine]
-system = 'windows'
+system = 'darwin'
 cpu_family = 'aarch64'
 cpu = 'aarch64'
 endian = 'little'
@@ -400,12 +395,17 @@ endian = 'little'
             cross_file = os.path.join(package_path, "meson.cross")
             with open(cross_file, "w") as fp:
                 fp.write(
-                    """[binaries]
-c = 'cc'
-cpp = 'c++'
+                    f"""[binaries]
+c = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-gcc.exe")}'
+cpp = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-g++.exe")}'
+ar = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-ar.exe")}'
+ranlib = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-ranlib.exe")}'
+rc = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-windres.exe")}'
+strip = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-strip.exe")}'
+nm = '{self._demangle_path("/opt/bin/aarch64-w64-mingw32-nm.exe")}'
 
 [host_machine]
-system = 'darwin'
+system = 'windows'
 cpu_family = 'aarch64'
 cpu = 'aarch64'
 endian = 'little'

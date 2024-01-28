@@ -100,6 +100,10 @@ if not os.path.exists(output_tarball):
             ],
         ),
         Package(
+            name="zlib",
+            source_url="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.xz",
+        ),
+        Package(
             name="gmp",
             source_url="https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz",
             # out-of-tree builds fail on Windows
@@ -107,6 +111,7 @@ if not os.path.exists(output_tarball):
         ),
         Package(
             name="png",
+            requires=["zlib"],
             source_url="http://deb.debian.org/debian/pool/main/libp/libpng1.6/libpng1.6_1.6.37.orig.tar.gz",
             # avoid an assembler error on Windows
             build_arguments=["PNG_COPTS=-fno-asynchronous-unwind-tables"],

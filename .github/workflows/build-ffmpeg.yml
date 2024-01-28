@@ -73,7 +73,6 @@ jobs:
           
           # Install packages for those that failed to compile
           pacman --noconfirm -Sw \
-            mingw-w64-clang-aarch64-zlib \
             mingw-w64-clang-aarch64-bzip2 \
             mingw-w64-clang-aarch64-libxml2 \
             mingw-w64-clang-aarch64-libiconv \
@@ -90,7 +89,6 @@ jobs:
           
           mkdir -p /c/cibw
 
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-zlib*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-bzip2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv*.pkg.tar.zst -C /c/cibw/
@@ -108,7 +106,6 @@ jobs:
           mv /c/cibw/clangarm64 /c/cibw/vendor
           mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
           
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/zlib
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/bzip2
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xml2
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/iconv
