@@ -93,7 +93,6 @@ jobs:
             mingw-w64-clang-aarch64-bzip2 \
             mingw-w64-clang-aarch64-gmp \
             mingw-w64-clang-aarch64-libpng \
-            mingw-w64-clang-aarch64-libxml2 \
             mingw-w64-clang-aarch64-freetype \
             mingw-w64-clang-aarch64-aom \
             mingw-w64-clang-aarch64-libass \
@@ -107,7 +106,10 @@ jobs:
             mingw-w64-clang-aarch64-twolame \
             mingw-w64-clang-aarch64-libvorbis \
             mingw-w64-clang-aarch64-libx264 \
-            mingw-w64-clang-aarch64-xvidcore
+            mingw-w64-clang-aarch64-xvidcore \
+            mingw-w64-clang-aarch64-flac \
+            mingw-w64-clang-aarch64-libsndfile \
+            mingw-w64-clang-aarch64-mpg123
           
           mkdir -p /c/cibw
 
@@ -142,7 +144,10 @@ jobs:
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-twolame*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvorbis*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libx264*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-xvid*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-xvidcore*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-flac*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libsndfile*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-mpg123*.pkg.tar.zst -C /c/cibw/
 
           mv /c/cibw/clangarm64 /c/cibw/vendor
           mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
