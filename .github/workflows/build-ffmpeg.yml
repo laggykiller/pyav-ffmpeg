@@ -34,7 +34,7 @@ jobs:
             python_version: 3.8
           - os: windows-latest
             arch: ARM64
-            shell: PowerShell
+            shell: 'msys2 {0}'
             cibw_build: cp39-*
             python_version: 3.9
     defaults:
@@ -52,12 +52,13 @@ jobs:
           brew install pkg-config
           brew unlink gettext libidn2 libpng libtiff libunistring little-cms2 unbound
       - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest' && matrix.arch == 'AMD64'
+        if: matrix.os == 'windows-latest'
         with:
           install: base-devel mingw-w64-x86_64-gcc mingw-w64-x86_64-gperf mingw-w64-x86_64-nasm
           path-type: inherit
       - name: Build FFmpeg (vcpkg)
         if: matrix.os == 'windows-latest' && matrix.arch == 'ARM64'
+        shell: cmd
         run: |
           C:\vcpkg\vcpkg.exe install ffmpeg[all,ffmpeg,ffplay,ffprobe]:arm64-windows
           move C:\vcpkg\installed\arm64-windows C:\cibw\vendor
