@@ -103,6 +103,7 @@ jobs:
             mingw-w64-clang-aarch64-openjpeg2 \
             mingw-w64-clang-aarch64-opus \
             mingw-w64-clang-aarch64-speex \
+            mingw-w64-clang-aarch64-speexdsp \
             mingw-w64-clang-aarch64-twolame \
             mingw-w64-clang-aarch64-libvorbis \
             mingw-w64-clang-aarch64-libx264 \
@@ -137,6 +138,7 @@ jobs:
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-openjpeg2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-opus*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-speex-*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-speexdsp-*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-twolame*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvorbis*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libx264*.pkg.tar.zst -C /c/cibw/
