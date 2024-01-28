@@ -107,7 +107,6 @@ if not os.path.exists(output_tarball):
         ),
         Package(
             name="png",
-            requires=["zlib"],
             source_url="http://deb.debian.org/debian/pool/main/libp/libpng1.6/libpng1.6_1.6.37.orig.tar.gz",
             # avoid an assembler error on Windows
             build_arguments=["PNG_COPTS=-fno-asynchronous-unwind-tables"],
@@ -128,7 +127,7 @@ if not os.path.exists(output_tarball):
         ),
         Package(
             name="fontconfig",
-            requires=["freetype", "xml2", "bz2"],
+            requires=["freetype", "xml2"],
             source_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2",
             build_arguments=["--disable-nls", "--enable-libxml2"],
         ),
