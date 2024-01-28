@@ -377,6 +377,11 @@ if not os.path.exists(output_tarball):
             dst = os.path.join(dest_dir, "lib")
             if os.path.isfile(src):
                 shutil.move(src, dst)
+            
+            src = os.path.join(dest_dir, "lib", "lib" + name + ".a")
+            dst = os.path.join(dest_dir, "lib", name + ".lib")
+            if os.path.isfile(src):
+                shutil.move(src, dst)
 
         # copy some libraries provided by mingw
         if os.environ["CIBW_ARCHS"] == "ARM64":
