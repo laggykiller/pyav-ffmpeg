@@ -141,9 +141,9 @@ jobs:
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/opencore-amr
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/openjpeg
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/opus
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/speex
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/twolame
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vorbis
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vpx
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x264
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xvid
       - name: Build FFmpeg

@@ -394,17 +394,6 @@ if not os.path.exists(output_tarball):
             dst = os.path.join(dest_dir, "bin")
             if os.path.isfile(src):
                 shutil.copy(src, dst)
-        
-        if os.environ["CIBW_ARCHS"] == "ARM64":
-            src = os.path.join(dest_dir, "lib/libbz2.dll")
-            dsts = [
-                os.path.join(dest_dir, "bin/bz2-1.dll"),
-                os.path.join(dest_dir, "bin/libbz2.dll"),
-                os.path.join(dest_dir, "bin/libbz2-1.dll"),
-            ]
-            if os.path.isfile(src):
-                for dst in dsts:
-                    shutil.copy(src, dst)
 
     # find libraries
     if plat == "Darwin":
