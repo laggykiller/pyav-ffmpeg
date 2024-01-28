@@ -86,20 +86,31 @@ jobs:
             mingw-w64-clang-aarch64-libvpx \
             mingw-w64-clang-aarch64-x265
           
+          # Install packages for those that could be compiled successfully
+          pacman --noconfirm -Sw \
+            mingw-w64-clang-aarch64-xz \
+            mingw-w64-clang-aarch64-zlib \
+            mingw-w64-clang-aarch64-bzip \
+            mingw-w64-clang-aarch64-gmp \
+            mingw-w64-clang-aarch64-libpng \
+            mingw-w64-clang-aarch64-libxml2 \
+            mingw-w64-clang-aarch64-freetype \
+            mingw-w64-clang-aarch64-aom \
+            mingw-w64-clang-aarch64-libass \
+            mingw-w64-clang-aarch64-lame \
+            mingw-w64-clang-aarch64-libogg \
+            mingw-w64-clang-aarch64-opencore-amr \
+            mingw-w64-clang-aarch64-openjpeg2 \
+            mingw-w64-clang-aarch64-opus \
+            mingw-w64-clang-aarch64-speex \
+            mingw-w64-clang-aarch64-twolame \
+            mingw-w64-clang-aarch64-libvorbis \
+            mingw-w64-clang-aarch64-x264 \
+            mingw-w64-clang-aarch64-xvidcore
+          
           mkdir -p /c/cibw
 
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-graphite2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-pcre2*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libbluray*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-dav1d*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvpx*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-x265*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-*.pkg.tar.zst -C /c/cibw/
 
           mv /c/cibw/clangarm64 /c/cibw/vendor
           mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
@@ -116,6 +127,25 @@ jobs:
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/dav1d
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vpx
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x265
+
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xz
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/zlib
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/bz2
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/gmp
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/png
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/freetype
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/aom
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/ass
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/lame
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/ogg
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/opencore-amr
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/openjpeg
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/opus
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/twolame
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vorbis
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vpx
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x264
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/xvid
       - name: Build FFmpeg
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
