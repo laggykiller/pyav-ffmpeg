@@ -128,7 +128,7 @@ jobs:
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvpx*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libwebp*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libx264*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-lzo2 *.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-lzo2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-nettle*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-openal*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-opencore-amr*.pkg.tar.zst -C /c/cibw/
