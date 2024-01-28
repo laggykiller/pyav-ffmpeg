@@ -90,7 +90,7 @@ jobs:
 
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv*.pkg.tar.zst -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig2*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2*.pkg.tar.zst -C /c/cibw/
