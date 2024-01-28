@@ -86,18 +86,18 @@ jobs:
             mingw-w64-clang-aarch64-libvpx \
             mingw-w64-clang-aarch64-x265
           
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig2* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-graphite2* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-pcre2* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libbluray* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-dav1d* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvpx* -C /c/cibw/
-          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-x265* -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libxml2*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libiconv*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fontconfig2*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-graphite2*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-pcre2*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libbluray*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-dav1d*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-libvpx*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-x265*.pkg.tar.zst -C /c/cibw/
 
           mv /c/cibw/clangarm64 /c/cibw/vendor
           mkdir -p /c/cibw/vendor/var/lib/cibuildpkg
