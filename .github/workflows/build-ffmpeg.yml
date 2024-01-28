@@ -79,6 +79,7 @@ jobs:
             mingw-w64-clang-aarch64-fribidi \
             mingw-w64-clang-aarch64-harfbuzz \
             mingw-w64-clang-aarch64-freetype \
+            mingw-w64-clang-aarch64-brotli \
             mingw-w64-clang-aarch64-glib2 \
             mingw-w64-clang-aarch64-graphite2 \
             mingw-w64-clang-aarch64-pcre2 \
@@ -95,6 +96,7 @@ jobs:
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-fribidi*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-harfbuzz*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-freetype*.pkg.tar.zst -C /c/cibw/
+          tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-brotli*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-glib2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-graphite2*.pkg.tar.zst -C /c/cibw/
           tar -xf /var/cache/pacman/pkg/mingw-w64-clang-aarch64-pcre2*.pkg.tar.zst -C /c/cibw/
