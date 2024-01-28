@@ -112,7 +112,7 @@ jobs:
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/glib
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/graphite
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/pcre
-          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/libbluray
+          echo installed > /c/cibw/vendor/var/lib/cibuildpkg/bluray
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/dav1d
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/vpx
           echo installed > /c/cibw/vendor/var/lib/cibuildpkg/x265
