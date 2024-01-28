@@ -90,7 +90,7 @@ jobs:
           pacman --noconfirm -Sw \
             mingw-w64-clang-aarch64-xz \
             mingw-w64-clang-aarch64-zlib \
-            mingw-w64-clang-aarch64-bzip \
+            mingw-w64-clang-aarch64-bzip2 \
             mingw-w64-clang-aarch64-gmp \
             mingw-w64-clang-aarch64-libpng \
             mingw-w64-clang-aarch64-libxml2 \
