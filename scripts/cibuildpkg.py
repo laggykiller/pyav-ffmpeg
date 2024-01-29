@@ -6,7 +6,6 @@ import contextlib
 import os
 import platform
 import shutil
-import struct
 import subprocess
 import sys
 import tarfile
@@ -39,10 +38,12 @@ def get_platform() -> str:
             return "win32"
         elif os.getenv("CIBW_ARCHS") == "ARM64":
             return "win_arm64"
-        elif struct.calcsize("P") * 8 == 64:
+        elif machine.lower() in ("amd64", "x86_64", "x64"):
             return "win_amd64"
-        else:
+        elif machine.lower() in ("i386", "i686", "x86"):
             return "win32"
+        else:
+            return "win_arm64"
     else:
         raise Exception(f"Unsupported system {system}")
 

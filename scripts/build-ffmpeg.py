@@ -4,7 +4,6 @@ import os
 import platform
 import shutil
 import subprocess
-import sys
 
 from cibuildpkg import Builder, Package, get_platform, log_group, run
 
@@ -49,7 +48,7 @@ if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
         print("Error: vcpkg not found")
         exit()
 
-    subprocess.run([
+    run([
         vcpkg_path,
         "install",
         "--triplet=arm64-windows-static-crt-release",
