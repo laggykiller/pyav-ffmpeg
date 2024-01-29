@@ -48,7 +48,7 @@ if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
     subprocess.run([
         vcpkg_path,
         "install",
-        "--target=arm64-windows-static-crt-release",
+        "--triplet=arm64-windows-static-crt-release",
         "--overlay-triplets=custom-triplets"
     ])
     shutil.move("vcpkg_installed/arm64-windows-static-crt-release", dest_dir)
