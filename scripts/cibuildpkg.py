@@ -227,7 +227,9 @@ class Builder:
                 # darwin13 matches the macos 10.9 target used by cibuildwheel:
                 # https://cibuildwheel.readthedocs.io/en/stable/cpp_standards/#macos-and-deployment-target-versions
                 configure_args += ["--target=x86_64-darwin13-gcc"]
-            elif platform.system() == "Windows":
+            elif get_platform() == "win32":
+                configure_args += ["--target=x86-win32-gcc"]
+            elif get_platform() == "win_amd64":
                 configure_args += ["--target=x86_64-win64-gcc"]
         elif darwin_arm64_cross:
             # AC_FUNC_MALLOC and AC_FUNC_REALLOC fail when cross-compiling
