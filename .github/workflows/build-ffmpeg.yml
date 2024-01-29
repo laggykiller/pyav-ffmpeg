@@ -60,11 +60,12 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.arch == 'ARM64'
         shell: cmd
         run: |
-          C:\vcpkg\vcpkg.exe install ffmpeg[all,ffmpeg,ffplay,ffprobe]:arm64-windows
+          C:\vcpkg\vcpkg.exe install ffmpeg:arm64-windows
           dir C:\vcpkg
           dir C:\vcpkg\installed
           dir C:\vcpkg\installed\arm64-windows
-          move C:\vcpkg\installed\arm64-windows C:\cibw\vendor
+          mkdir "C:\cibw"
+          move "C:\vcpkg\installed\arm64-windows" "C:\cibw\vendor"
       - name: Build FFmpeg
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
