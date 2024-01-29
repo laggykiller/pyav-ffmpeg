@@ -89,13 +89,15 @@ jobs:
           brew update
           brew install pkg-config
           brew unlink gettext libidn2 libpng libtiff libunistring little-cms2 unbound
-      - uses: friendlyanon/setup-vcpkg@v1
-        with: { committish: 7032c5759f823fc8699a5c37d5f7072464ccb9a8 }
       - uses: msys2/setup-msys2@v2
         if: matrix.os == 'windows-latest'
         with:
           msystem: ${{matrix.msys2_sys}}
-          install: base-devel mingw-w64-{msys2_env}-gcc mingw-w64-{msys2_env}-gperf mingw-w64-{msys2_env}-nasm
+          install: >
+            base-devel
+            mingw-w64-${{matrix.msys2_env}}-gcc
+            mingw-w64-${{matrix.msys2_env}}-gperf
+            mingw-w64-${{matrix.msys2_env}}-nasm
           path-type: inherit
       - name: Build FFmpeg
         env:
