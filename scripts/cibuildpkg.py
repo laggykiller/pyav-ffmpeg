@@ -33,7 +33,13 @@ def get_platform() -> str:
         machine = os.environ["ARCHFLAGS"].split()[1]
         return f"macosx_{machine}"
     elif system == "Windows":
-        if struct.calcsize("P") * 8 == 64:
+        if os.getenv("CIBW_ARCHS") == "AMD64":
+            return "win_amd64"
+        elif os.getenv("CIBW_ARCHS") == "x86":
+            return "win32"
+        elif os.getenv("CIBW_ARCHS") == "ARM64":
+            return "win_arm64"
+        elif struct.calcsize("P") * 8 == 64:
             return "win_amd64"
         else:
             return "win32"
