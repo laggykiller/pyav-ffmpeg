@@ -204,7 +204,8 @@ jobs:
 
   uploadrelease:
     name: Upload release
-    needs: [build, build-qemu-stage-3]
+    # needs: [build, build-qemu-stage-3]
+    needs: build
     runs-on: [ubuntu-latest]
     steps:
     - name: Get release
