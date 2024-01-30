@@ -90,7 +90,7 @@ jobs:
           brew install pkg-config
           brew unlink gettext libidn2 libpng libtiff libunistring little-cms2 unbound
       - uses: friendlyanon/setup-vcpkg@v1
-        with: { committish: cabba0d0379b78e34d0a0d37edb4c459c5a03337 }
+        with: { committish: 716138a6453d763efa7451630c14c5505f493ca6 }
       - uses: msys2/setup-msys2@v2
         if: matrix.os == 'windows-latest'
         with:
