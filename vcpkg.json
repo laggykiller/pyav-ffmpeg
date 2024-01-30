@@ -84,8 +84,9 @@
             "name": "ffmpeg",
             "version>=": "6.1",
             "features": [
-                "all",
+                "all-gpl",
                 "x264",
+                "x265",
                 "ffmpeg",
                 "ffprobe",
                 "ffplay"
