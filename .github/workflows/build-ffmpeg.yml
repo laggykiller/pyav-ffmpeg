@@ -69,10 +69,10 @@ jobs:
           #   msys2_sys: mingw32
           #   msys2_env: i686
           - os: windows-latest
-            arch: ARM64
+            arch: AMD64
             shell: 'msys2 {0}'
-            cibw_build: cp39-*
-            python_version: 3.9
+            cibw_build: cp38-*
+            python_version: 3.8
             msys2_sys: mingw64
             msys2_env: x86_64
     defaults:

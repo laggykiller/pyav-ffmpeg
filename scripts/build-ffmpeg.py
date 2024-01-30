@@ -36,7 +36,7 @@ if os.path.exists(output_tarball):
     print("Output tarball already exists, quitting")
     exit()
 
-if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
+if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "AMD64":
     vcpkg_path = os.getenv("VCPKG_ROOT")
     if vcpkg_path:
         vcpkg_path = os.path.join(vcpkg_path, "vcpkg.exe")
@@ -51,10 +51,9 @@ if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
     run([
         vcpkg_path,
         "install",
-        "--triplet=arm64-windows-static-crt-release",
-        "--overlay-triplets=custom-triplets"
+        "--triplet=x64-windows-static-release"
     ])
-    shutil.move("vcpkg_installed/arm64-windows-static-crt-release", dest_dir)
+    shutil.move("vcpkg_installed/x64-windows-static-release", dest_dir)
     
     # build output tarball
     os.makedirs(output_dir, exist_ok=True)
