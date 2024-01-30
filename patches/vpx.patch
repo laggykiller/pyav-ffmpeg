@@ -77,15 +77,22 @@
  
  VERSION_STRING=${VERSION_STRING}
  
-@@ -539,6 +540,8 @@
+@@ -539,9 +540,13 @@
+             ;;
          *)
              if enabled gnu; then
-                 echo "--enable-shared is only supported on ELF; assuming this is OK"
+-                echo "--enable-shared is only supported on ELF; assuming this is OK"
++                echo "--enable-shared is only supported on ELF and PE; assuming this is OK"
++            elif enabled win32; then
++                echo "--enable-shared is only supported on ELF and PE; assuming this is OK"
 +            elif enabled win64; then
 +                echo "--enable-shared is only supported on ELF and PE; assuming this is OK"
              else
-                 die "--enable-shared only supported on ELF, OS/2, and Darwin for now"
+-                die "--enable-shared only supported on ELF, OS/2, and Darwin for now"
++                die "--enable-shared only supported on ELF, OS/2, Darwin and PE for now"
              fi
+             ;;
+         esac
 --- libvpx-1.11.0.orig/libs.mk  	2021-10-06 19:41:19.000000000 +0200
 +++ libvpx-1.11.0/libs.mk           2022-03-29 19:54:58.000000000 +0200
 @@ -137,6 +137,7 @@
