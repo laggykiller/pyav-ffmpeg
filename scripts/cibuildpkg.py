@@ -231,6 +231,8 @@ class Builder:
                 configure_args += ["--target=x86-win32-gcc"]
             elif get_platform() == "win_amd64":
                 configure_args += ["--target=x86_64-win64-gcc"]
+        elif package.name == "x264" and get_platform() == "win32":
+            configure_args += ["--host=i686-w64-mingw32"]
         elif darwin_arm64_cross:
             # AC_FUNC_MALLOC and AC_FUNC_REALLOC fail when cross-compiling
             env["ac_cv_func_malloc_0_nonnull"] = "yes"

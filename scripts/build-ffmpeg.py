@@ -294,7 +294,7 @@ codec_group = [
     ),
     Package(
         name="x264",
-        source_url="https://code.videolan.org/videolan/x264/-/archive/master/x264-master.tar.bz2",
+        source_url="https://downloads.sourceforge.net/project/freetype/freetype2/2.10.1/freetype-2.10.1.tar.gz",
         # parallel build runs out of memory on Windows
         build_parallel=plat != "Windows",
         gpl=True,
