@@ -37,12 +37,12 @@ if os.path.exists(output_tarball):
     exit()
 
 if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
-    vcpkg_path = shutil.which("vcpkg")
-    if not vcpkg_path:
-        vcpkg_path = os.getenv("VCPKG_ROOT")
-        if vcpkg_path:
-            vcpkg_path = os.path.join(vcpkg_path, "vcpkg.exe")
-    if not vcpkg_path:
+    vcpkg_path = os.getenv("VCPKG_ROOT")
+    if vcpkg_path:
+        vcpkg_path = os.path.join(vcpkg_path, "vcpkg.exe")
+    else:
+        vcpkg_path = shutil.which("vcpkg")
+    if not vcpkg_path or not os.path.isfile(vcpkg_path):
         vcpkg_path = "C:/vcpkg/vcpkg.exe"
     if not os.path.isfile(vcpkg_path):
         print("Error: vcpkg not found")
