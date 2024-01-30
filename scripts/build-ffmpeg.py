@@ -37,24 +37,24 @@ if os.path.exists(output_tarball):
     exit()
 
 if platform.system() == "Windows" and os.environ["CIBW_ARCHS"] == "ARM64":
-    # vcpkg_path = shutil.which("vcpkg")
-    # if not vcpkg_path:
-    #     vcpkg_path = os.getenv("VCPKG_ROOT")
-    #     if vcpkg_path:
-    #         vcpkg_path = os.path.join(vcpkg_path, "vcpkg.exe")
-    # if not vcpkg_path:
-    #     vcpkg_path = "C:/vcpkg/vcpkg.exe"
-    # if not os.path.isfile(vcpkg_path):
-    #     print("Error: vcpkg not found")
-    #     exit()
+    vcpkg_path = shutil.which("vcpkg")
+    if not vcpkg_path:
+        vcpkg_path = os.getenv("VCPKG_ROOT")
+        if vcpkg_path:
+            vcpkg_path = os.path.join(vcpkg_path, "vcpkg.exe")
+    if not vcpkg_path:
+        vcpkg_path = "C:/vcpkg/vcpkg.exe"
+    if not os.path.isfile(vcpkg_path):
+        print("Error: vcpkg not found")
+        exit()
 
-    # run([
-    #     vcpkg_path,
-    #     "install",
-    #     "--triplet=arm64-windows-static-crt-release",
-    #     "--overlay-triplets=custom-triplets"
-    # ])
-    # shutil.move("vcpkg_installed/arm64-windows-static-crt-release", dest_dir)
+    run([
+        vcpkg_path,
+        "install",
+        "--triplet=arm64-windows-static-crt-release",
+        "--overlay-triplets=custom-triplets"
+    ])
+    shutil.move("vcpkg_installed/arm64-windows-static-crt-release", dest_dir)
     
     # build output tarball
     os.makedirs(output_dir, exist_ok=True)
