@@ -86,7 +86,6 @@
             "features": [
                 "all-gpl",
                 "x264",
-                "x265",
                 "ffmpeg",
                 "ffprobe",
                 "ffplay"

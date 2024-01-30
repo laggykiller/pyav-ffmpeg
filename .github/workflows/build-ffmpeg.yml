@@ -90,7 +90,7 @@ jobs:
           brew install pkg-config
           brew unlink gettext libidn2 libpng libtiff libunistring little-cms2 unbound
       - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest' && matrix.arch != ARM64
+        if: matrix.os == 'windows-latest' && matrix.arch != 'ARM64'
         with:
           msystem: ${{matrix.msys2_sys}}
           install: >
