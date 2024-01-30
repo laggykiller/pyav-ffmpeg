@@ -73,10 +73,6 @@
             "version>=": "1.13.1"
         },
         {
-            "name": "x264",
-            "version>=": "0.164.3107"
-        },
-        {
             "name": "openh264",
             "version>=": "2021-03-16"
         },
@@ -84,8 +80,7 @@
             "name": "ffmpeg",
             "version>=": "6.1",
             "features": [
-                "all-gpl",
-                "x264",
+                "all",
                 "ffmpeg",
                 "ffprobe",
                 "ffplay"
