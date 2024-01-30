@@ -413,13 +413,17 @@ if plat == "Windows" and (build_stage is None or build_stage == 2):
         .strip()
     )
     for name in [
+        "libgcc_s_dw2-1",
         "libgcc_s_seh-1.dll",
         "libiconv-2.dll",
         "libstdc++-6.dll",
         "libwinpthread-1.dll",
         "zlib1.dll",
     ]:
-        shutil.copy(os.path.join(mingw_bindir, name), os.path.join(dest_dir, "bin"))
+        src = os.path.join(mingw_bindir, name)
+        dst = os.path.join(dest_dir, "bin")
+        if os.path.isfile(src):
+            shutil.copy(src, dst)
 
 # find libraries
 if plat == "Darwin":

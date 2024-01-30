@@ -70,11 +70,11 @@ jobs:
             msys2_env: i686
           - os: windows-latest
             arch: ARM64
-            shell: 'msys2 {0}'
+            shell: PowerShell
             cibw_build: cp39-*
             python_version: 3.9
-            msys2_sys: mingw64
-            msys2_env: x86_64
+            msys2_sys: na
+            msys2_env: na
     defaults:
       run:
         shell: ${{ matrix.shell }}
@@ -90,7 +90,7 @@ jobs:
           brew install pkg-config
           brew unlink gettext libidn2 libpng libtiff libunistring little-cms2 unbound
       - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest' && matrix.arch != ARM64
         with:
           msystem: ${{matrix.msys2_sys}}
           install: >
