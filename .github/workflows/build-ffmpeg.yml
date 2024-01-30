@@ -70,11 +70,11 @@ jobs:
             msys2_env: i686
           - os: windows-latest
             arch: ARM64
-            shell: PowerShell
+            shell: 'msys2 {0}'
             cibw_build: cp39-*
             python_version: 3.9
-            msys2_sys: na
-            msys2_env: na
+            msys2_sys: mingw64
+            msys2_env: x86_64
     defaults:
       run:
         shell: ${{ matrix.shell }}
