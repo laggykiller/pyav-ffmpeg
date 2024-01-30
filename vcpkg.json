@@ -1,63 +1,6 @@
 {
     "dependencies": [
         {
-            "name": "zlib"
-        },
-        {
-            "name": "gmp"
-        },
-        {
-            "name": "libpng"
-        },
-        {
-            "name": "libxml2"
-        },
-        {
-            "name": "freetype"
-        },
-        {
-            "name": "fontconfig"
-        },
-        {
-            "name": "fribidi"
-        },
-        {
-            "name": "harfbuzz"
-        },
-        {
-            "name": "aom"
-        },
-        {
-            "name": "libass"
-        },
-        {
-            "name": "dav1d"
-        },
-        {
-            "name": "mp3lame"
-        },
-        {
-            "name": "libogg"
-        },
-        {
-            "name": "openjpeg"
-        },
-        {
-            "name": "opus"
-        },
-        {
-            "name": "speex"
-        },
-        {
-            "name": "libvorbis"
-        },
-        {
-            "name": "libvpx"
-        },
-        {
-            "name": "openh264"
-        },
-        {
             "name": "ffmpeg",
             "features": [
                 "all",
