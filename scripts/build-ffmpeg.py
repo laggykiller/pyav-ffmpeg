@@ -155,7 +155,7 @@ library_group = [
     Package(
         name="fontconfig",
         requires=["freetype", "xml2"],
-        source_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2",
+        source_url="https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/2.13.1/fontconfig-2.13.1.tar.bz2",
         build_arguments=["--disable-nls", "--enable-libxml2"],
     ),
     Package(
