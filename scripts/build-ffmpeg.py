@@ -413,7 +413,7 @@ if plat == "Windows" and (build_stage is None or build_stage == 2):
         .strip()
     )
     for name in [
-        "libgcc_s_dw2-1",
+        "libgcc_s_dw2-1.dll",
         "libgcc_s_seh-1.dll",
         "libiconv-2.dll",
         "libstdc++-6.dll",
