@@ -6,7 +6,7 @@
         },
         {
             "name": "gmp",
-            "version>=": "6.2.1#21"
+            "version>=": "6.2.1#22"
         },
         {
             "name": "libpng",
@@ -74,23 +74,25 @@
         },
         {
             "name": "x264",
-            "version>=": "0.164.3107"
+            "version>=": "0.164.3173"
+        },
+        {
+            "name": "x265",
+            "version>=": "3.5#1",
+            "platform": "!(arm & windows)"
         },
         {
             "name": "openh264",
-            "version>=": "2021-03-16"
+            "version>=": "2022-01-28"
         },
         {
             "name": "ffmpeg",
             "version>=": "6.1",
             "features": [
                 "all-gpl",
-                "x264",
-                "ffmpeg",
-                "ffprobe",
-                "ffplay"
+                "x264"
             ]
         }
     ],
-    "builtin-baseline": "cd5e746ec203c8c3c61647e0886a8df8c1e78e41"
+    "builtin-baseline": "7abb3c9b4bf66d9251bef98f5d9dd838c6ee1820"
 }
